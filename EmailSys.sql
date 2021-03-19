@@ -1,4 +1,4 @@
--- MySQL Workbench Forward Engineering
+
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
@@ -7,23 +7,15 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema emailSys
 -- -----------------------------------------------------
-
--- -----------------------------------------------------
--- Schema emailSys
--- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `emailSys` DEFAULT CHARACTER SET utf8 ;
 -- -----------------------------------------------------
--- Schema emailsys
--- -----------------------------------------------------
 
--- -----------------------------------------------------
--- Schema emailsys
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `emailsys` ;
 USE `emailSys` ;
 
 -- -----------------------------------------------------
--- Table `emailSys`.`COUNTRY`
+-- Create Table `emailSys`.`COUNTRY`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `emailSys`.`COUNTRY` (
   `COUNTRY_ID` INT NOT NULL AUTO_INCREMENT,
@@ -36,7 +28,7 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `emailSys`.`COMPANY`
+-- Create Table `emailSys`.`COMPANY`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `emailSys`.`COMPANY` (
   `COMPANY_ID` INT NOT NULL AUTO_INCREMENT,
@@ -55,7 +47,7 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `emailSys`.`DEPARTMENT`
+-- Create Table `emailSys`.`DEPARTMENT`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `emailSys`.`DEPARTMENT` (
   `DEPARTMENT_ID` INT NOT NULL AUTO_INCREMENT,
@@ -74,7 +66,7 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `emailSys`.`EMPLOYEE`
+-- Create Table `emailSys`.`EMPLOYEE`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `emailSys`.`EMPLOYEE` (
   `EMPLOYEE_ID` INT NOT NULL AUTO_INCREMENT,
@@ -98,7 +90,7 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `emailSys`.`EVENT`
+-- Create Table `emailSys`.`EVENT`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `emailSys`.`EVENT` (
   `EVENT_ID` INT NOT NULL,
@@ -116,7 +108,7 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `emailSys`.`ATTENDENT`
+-- Create Table `emailSys`.`ATTENDENT`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `emailSys`.`ATTENDENT` (
   `EVENT_ID` INT NOT NULL,
@@ -139,7 +131,7 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `emailSys`.`EMPLOYEE_EDIT`
+-- Create Table `emailSys`.`EMPLOYEE_EDIT`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `emailSys`.`EMPLOYEE_EDIT` (
   `EMPLOYEE_ID` INT NOT NULL AUTO_INCREMENT,
@@ -163,7 +155,7 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `emailSys`.`PROJECT`
+--Create Table `emailSys`.`PROJECT`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `emailSys`.`PROJECT` (
   `PROJECT_ID` INT NOT NULL AUTO_INCREMENT,
@@ -180,7 +172,7 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `emailSys`.`GROUPS`
+-- Create Table `emailSys`.`GROUPS`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `emailSys`.`GROUPS` (
   `EMPLOYEE_ID` INT NOT NULL,
@@ -203,7 +195,7 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `emailSys`.`USER`
+--Create Table `emailSys`.`USER`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `emailSys`.`USER` (
   `USER_ID` VARCHAR(45) NOT NULL,
@@ -223,7 +215,7 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `emailSys`.`MESSAGE`
+--Create Table `emailSys`.`MESSAGE`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `emailSys`.`MESSAGE` (
   `EMAIL_ID` INT NOT NULL AUTO_INCREMENT,
@@ -250,7 +242,7 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `emailSys`.`POST`
+--Create Table `emailSys`.`POST`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `emailSys`.`POST` (
   `POST_ID` INT NOT NULL AUTO_INCREMENT,
@@ -271,7 +263,7 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `emailSys`.`REPLY`
+--Create Table `emailSys`.`REPLY`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `emailSys`.`REPLY` (
   `REPLY_ID` INT NOT NULL AUTO_INCREMENT,
@@ -298,13 +290,14 @@ USE `emailsys` ;
 CREATE TABLE IF NOT EXISTS `emailsys`.`new_view` (`EMPLOYEE_ID` INT, `LAST_NAME` INT, `FIRST_NAME` INT, `DEPARTMENT_NAME` INT, `CONTACT` INT);
 
 -- -----------------------------------------------------
--- View `emailsys`.`new_view`
+--Create View `emailsys`.`new_view`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `emailsys`.`new_view`;
 USE `emailsys`;
 CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `emailsys`.`new_view` AS select `emailsys`.`employee`.`EMPLOYEE_ID` AS `EMPLOYEE_ID`,`emailsys`.`employee`.`LAST_NAME` AS `LAST_NAME`,`emailsys`.`employee`.`FIRST_NAME` AS `FIRST_NAME`,`emailsys`.`department`.`DEPARTMENT_NAME` AS `DEPARTMENT_NAME`,`emailsys`.`department`.`CONTACT` AS `CONTACT` from (`emailsys`.`employee` left join `emailsys`.`department` on((`emailsys`.`employee`.`DEPARTMENT_ID` = `emailsys`.`department`.`DEPARTMENT_ID`)));
 USE `emailSys`;
 
+-- Add a trigger in Employee table which enables old employee information be stored in the Employee_Edit table automatically when the new employee information is updated in the Employee table
 DELIMITER $$
 USE `emailSys`$$
 CREATE
