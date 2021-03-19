@@ -1,0 +1,334 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema emailSys
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema emailSys
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `emailSys` DEFAULT CHARACTER SET utf8 ;
+-- -----------------------------------------------------
+-- Schema emailsys
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema emailsys
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `emailsys` ;
+USE `emailSys` ;
+
+-- -----------------------------------------------------
+-- Table `emailSys`.`COUNTRY`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `emailSys`.`COUNTRY` (
+  `COUNTRY_ID` INT NOT NULL AUTO_INCREMENT,
+  `COUNTRY_NAME` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`COUNTRY_ID`),
+  UNIQUE INDEX `COUNTRY_ID_UNIQUE` (`COUNTRY_ID` ASC) VISIBLE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 110
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `emailSys`.`COMPANY`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `emailSys`.`COMPANY` (
+  `COMPANY_ID` INT NOT NULL AUTO_INCREMENT,
+  `LOCATION_ID` INT NOT NULL,
+  `COUNTRY_COUNTRY_ID` INT NULL DEFAULT NULL,
+  `COUNTRY_COUNTRY_ID1` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`COMPANY_ID`),
+  UNIQUE INDEX `COMPANY_ID_UNIQUE` (`COMPANY_ID` ASC) VISIBLE,
+  INDEX `fk_COMPANY_COUNTRY1_idx` (`COUNTRY_COUNTRY_ID1` ASC) VISIBLE,
+  CONSTRAINT `fk_COMPANY_COUNTRY1`
+    FOREIGN KEY (`COUNTRY_COUNTRY_ID1`)
+    REFERENCES `emailSys`.`COUNTRY` (`COUNTRY_ID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 1222
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `emailSys`.`DEPARTMENT`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `emailSys`.`DEPARTMENT` (
+  `DEPARTMENT_ID` INT NOT NULL AUTO_INCREMENT,
+  `DEPARTMENT_NAME` VARCHAR(45) NOT NULL,
+  `CONTACT` VARCHAR(45) NULL DEFAULT NULL,
+  `COMPANY_COMPANY_ID1` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`DEPARTMENT_ID`),
+  UNIQUE INDEX `DEPARTMENT_ID_UNIQUE` (`DEPARTMENT_ID` ASC) VISIBLE,
+  INDEX `fk_DEPARTMENT_COMPANY1_idx` (`COMPANY_COMPANY_ID1` ASC) VISIBLE,
+  CONSTRAINT `fk_DEPARTMENT_COMPANY1`
+    FOREIGN KEY (`COMPANY_COMPANY_ID1`)
+    REFERENCES `emailSys`.`COMPANY` (`COMPANY_ID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 39
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `emailSys`.`EMPLOYEE`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `emailSys`.`EMPLOYEE` (
+  `EMPLOYEE_ID` INT NOT NULL AUTO_INCREMENT,
+  `LAST_NAME` VARCHAR(45) NOT NULL,
+  `FIRST_NAME` VARCHAR(45) NOT NULL,
+  `PHONE` VARCHAR(20) NOT NULL,
+  `ADDRESS` VARCHAR(45) NOT NULL,
+  `JOB` VARCHAR(45) NOT NULL,
+  `HIREDATE` DATE NOT NULL,
+  `DEPARTMENT_ID` VARCHAR(45) NOT NULL,
+  `DEPARTMENT_DEPARTMENT_ID1` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`EMPLOYEE_ID`),
+  UNIQUE INDEX `EMPLOYEE_ID_UNIQUE` (`EMPLOYEE_ID` ASC) VISIBLE,
+  INDEX `fk_EMPLOYEE_DEPARTMENT1_idx` (`DEPARTMENT_DEPARTMENT_ID1` ASC) VISIBLE,
+  CONSTRAINT `fk_EMPLOYEE_DEPARTMENT1`
+    FOREIGN KEY (`DEPARTMENT_DEPARTMENT_ID1`)
+    REFERENCES `emailSys`.`DEPARTMENT` (`DEPARTMENT_ID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 201
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `emailSys`.`EVENT`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `emailSys`.`EVENT` (
+  `EVENT_ID` INT NOT NULL,
+  `START_TIME` VARCHAR(45) NOT NULL,
+  `END_TIME` VARCHAR(45) NOT NULL,
+  `COST` VARCHAR(45) NULL DEFAULT NULL,
+  `HOLDER` VARCHAR(45) NOT NULL,
+  `DESCRIPTION` VARCHAR(45) NOT NULL,
+  `STATUS` VARCHAR(45) NULL DEFAULT NULL,
+  `LIMITATION` VARCHAR(45) NULL DEFAULT NULL,
+  `ATTENDENTS` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`EVENT_ID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `emailSys`.`ATTENDENT`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `emailSys`.`ATTENDENT` (
+  `EVENT_ID` INT NOT NULL,
+  `EMPLOYEE_ID` VARCHAR(45) NOT NULL,
+  `EMPLOYEE_EMPLOYEE_ID` INT NULL DEFAULT NULL,
+  `EVENT_EVENT_ID` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`EVENT_ID`),
+  INDEX `fk_ATTENDENT_EMPLOYEE1_idx` (`EMPLOYEE_EMPLOYEE_ID` ASC) VISIBLE,
+  INDEX `fk_ATTENDENT_EVENT1_idx` (`EVENT_EVENT_ID` ASC) VISIBLE,
+  CONSTRAINT `fk_ATTENDENT_EMPLOYEE1`
+    FOREIGN KEY (`EMPLOYEE_EMPLOYEE_ID`)
+    REFERENCES `emailSys`.`EMPLOYEE` (`EMPLOYEE_ID`),
+  CONSTRAINT `fk_ATTENDENT_EVENT1`
+    FOREIGN KEY (`EVENT_EVENT_ID`)
+    REFERENCES `emailSys`.`EVENT` (`EVENT_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `emailSys`.`EMPLOYEE_EDIT`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `emailSys`.`EMPLOYEE_EDIT` (
+  `EMPLOYEE_ID` INT NOT NULL AUTO_INCREMENT,
+  `LAST_NAME` VARCHAR(45) NOT NULL,
+  `FIRST_NAME` VARCHAR(45) NOT NULL,
+  `PHONE` VARCHAR(20) NOT NULL,
+  `ADDRESS` VARCHAR(45) NOT NULL,
+  `JOB` VARCHAR(45) NOT NULL,
+  `HIREDATE` DATE NOT NULL,
+  `DEPARTMENT_ID` VARCHAR(45) NOT NULL,
+  `CHANGE_DATE` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`EMPLOYEE_ID`),
+  UNIQUE INDEX `EMPLOYEE_ID_UNIQUE` (`EMPLOYEE_ID` ASC) VISIBLE,
+  CONSTRAINT `fk_EMPLOYEE_EDIT_EMPLOYEE1`
+    FOREIGN KEY (`EMPLOYEE_ID`)
+    REFERENCES `emailSys`.`EMPLOYEE` (`EMPLOYEE_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `emailSys`.`PROJECT`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `emailSys`.`PROJECT` (
+  `PROJECT_ID` INT NOT NULL AUTO_INCREMENT,
+  `PROJECT_NAME` VARCHAR(45) NOT NULL,
+  `START_DATE` DATE NOT NULL,
+  `FINISH_DATE` DATE NULL DEFAULT NULL,
+  `DESCRIPTION` VARCHAR(45) NOT NULL,
+  `LEADER_ID` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`PROJECT_ID`),
+  UNIQUE INDEX `PROJECT_ID_UNIQUE` (`PROJECT_ID` ASC) VISIBLE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 173
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `emailSys`.`GROUPS`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `emailSys`.`GROUPS` (
+  `EMPLOYEE_ID` INT NOT NULL,
+  `SIZE_OF_GROUP` INT NOT NULL,
+  `PROJECT_ID` VARCHAR(45) NOT NULL,
+  `PROJECT_PROJECT_ID` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`EMPLOYEE_ID`, `PROJECT_ID`),
+  UNIQUE INDEX `EMPLOYEE_ID_UNIQUE` (`EMPLOYEE_ID` ASC) VISIBLE,
+  INDEX `fk_GROUPS_PROJECT1_idx` (`PROJECT_PROJECT_ID` ASC) VISIBLE,
+  CONSTRAINT `fk_GROUPS_EMPLOYEE`
+    FOREIGN KEY (`EMPLOYEE_ID`)
+    REFERENCES `emailSys`.`EMPLOYEE` (`EMPLOYEE_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_GROUPS_PROJECT1`
+    FOREIGN KEY (`PROJECT_PROJECT_ID`)
+    REFERENCES `emailSys`.`PROJECT` (`PROJECT_ID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `emailSys`.`USER`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `emailSys`.`USER` (
+  `USER_ID` VARCHAR(45) NOT NULL,
+  `USER_PASSWORD` VARCHAR(45) NOT NULL,
+  `EMPLOYEE_ID` VARCHAR(45) NOT NULL,
+  `EMPLOYEE_EMPLOYEE_ID` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`USER_ID`),
+  UNIQUE INDEX `USER_ID_UNIQUE` (`USER_ID` ASC) VISIBLE,
+  INDEX `fk_USER_EMPLOYEE1_idx` (`EMPLOYEE_EMPLOYEE_ID` ASC) VISIBLE,
+  CONSTRAINT `fk_USER_EMPLOYEE1`
+    FOREIGN KEY (`EMPLOYEE_EMPLOYEE_ID`)
+    REFERENCES `emailSys`.`EMPLOYEE` (`EMPLOYEE_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `emailSys`.`MESSAGE`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `emailSys`.`MESSAGE` (
+  `EMAIL_ID` INT NOT NULL AUTO_INCREMENT,
+  `CONTEXT` VARCHAR(45) NULL DEFAULT NULL,
+  `SENDTIME` VARCHAR(45) NULL DEFAULT NULL,
+  `USER_ID` VARCHAR(45) NOT NULL,
+  `RECERIVER_ID` VARCHAR(45) NULL DEFAULT NULL,
+  `SENDER_ID` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`EMAIL_ID`),
+  UNIQUE INDEX `EMAIL_ID_UNIQUE` (`EMAIL_ID` ASC) VISIBLE,
+  INDEX `fk_MESSAGE_USER2_idx` (`SENDER_ID` ASC) VISIBLE,
+  INDEX `fk_MESSAGE_USER1` (`RECERIVER_ID` ASC) VISIBLE,
+  CONSTRAINT `fk_MESSAGE_USER1`
+    FOREIGN KEY (`RECERIVER_ID`)
+    REFERENCES `emailSys`.`USER` (`USER_ID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_MESSAGE_USER2`
+    FOREIGN KEY (`SENDER_ID`)
+    REFERENCES `emailSys`.`USER` (`USER_ID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 15
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `emailSys`.`POST`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `emailSys`.`POST` (
+  `POST_ID` INT NOT NULL AUTO_INCREMENT,
+  `DATE_POST` DATETIME NOT NULL,
+  `CONTEXT` VARCHAR(45) NOT NULL,
+  `IMAGE_ID` VARCHAR(45) NULL DEFAULT NULL,
+  `EMPLOYEE_EMPLOYEE_ID` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`POST_ID`),
+  UNIQUE INDEX `POST_ID_UNIQUE` (`POST_ID` ASC) VISIBLE,
+  INDEX `fk_POST_EMPLOYEE1_idx` (`EMPLOYEE_EMPLOYEE_ID` ASC) VISIBLE,
+  CONSTRAINT `fk_POST_EMPLOYEE1`
+    FOREIGN KEY (`EMPLOYEE_EMPLOYEE_ID`)
+    REFERENCES `emailSys`.`EMPLOYEE` (`EMPLOYEE_ID`)
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 2
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `emailSys`.`REPLY`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `emailSys`.`REPLY` (
+  `REPLY_ID` INT NOT NULL AUTO_INCREMENT,
+  `EMAIL_ID` INT NOT NULL,
+  `CONTEXT` VARCHAR(45) NULL DEFAULT NULL,
+  `SENDTIME` VARCHAR(45) NOT NULL,
+  `MESSAGE_EMAIL_ID` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`REPLY_ID`),
+  UNIQUE INDEX `REPLY_ID_UNIQUE` (`REPLY_ID` ASC) VISIBLE,
+  INDEX `fk_REPLY_MESSAGE1_idx` (`MESSAGE_EMAIL_ID` ASC) VISIBLE,
+  CONSTRAINT `fk_REPLY_MESSAGE1`
+    FOREIGN KEY (`MESSAGE_EMAIL_ID`)
+    REFERENCES `emailSys`.`MESSAGE` (`EMAIL_ID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 6
+DEFAULT CHARACTER SET = utf8;
+
+USE `emailsys` ;
+USE `emailsys` ;
+
+-- -----------------------------------------------------
+-- Placeholder table for view `emailsys`.`new_view`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `emailsys`.`new_view` (`EMPLOYEE_ID` INT, `LAST_NAME` INT, `FIRST_NAME` INT, `DEPARTMENT_NAME` INT, `CONTACT` INT);
+
+-- -----------------------------------------------------
+-- View `emailsys`.`new_view`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `emailsys`.`new_view`;
+USE `emailsys`;
+CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `emailsys`.`new_view` AS select `emailsys`.`employee`.`EMPLOYEE_ID` AS `EMPLOYEE_ID`,`emailsys`.`employee`.`LAST_NAME` AS `LAST_NAME`,`emailsys`.`employee`.`FIRST_NAME` AS `FIRST_NAME`,`emailsys`.`department`.`DEPARTMENT_NAME` AS `DEPARTMENT_NAME`,`emailsys`.`department`.`CONTACT` AS `CONTACT` from (`emailsys`.`employee` left join `emailsys`.`department` on((`emailsys`.`employee`.`DEPARTMENT_ID` = `emailsys`.`department`.`DEPARTMENT_ID`)));
+USE `emailSys`;
+
+DELIMITER $$
+USE `emailSys`$$
+CREATE
+DEFINER=`root`@`localhost`
+TRIGGER `emailSys`.`EMPLOYEE_BEFORE_UPDATE`
+BEFORE UPDATE ON `emailSys`.`EMPLOYEE`
+FOR EACH ROW
+BEGIN
+INSERT INTO employees_edit  
+SET action = 'update',  
+EMPLOYEE_ID = OLD.EMPLOYEE_ID,  
+LAST_NAME = OLD.LAST_NAME, 
+FIRST_NAME = OLD.FIRST_NAME,
+PHONE = OLD.PHONE,
+ADDRESS = OLD.ADDRESS,
+JOB = OLD.JOB,
+HIREDATE = OLD.HIREDATE, 
+DEPARTMENT_ID =OLD.DEPARTMENT_ID,
+CHANGE_DATE = NOW();
+END$$
+
+
+DELIMITER ;
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
